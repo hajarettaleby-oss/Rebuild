@@ -1,0 +1,12 @@
+import axios from "axios";
+const API = axios.create({ baseURL: "http://localhost:4000/api" });
+API.interceptors.request.use(c => { const t = localStorage.getItem("rb_token"); if (t) c.headers.Authorization = `Bearer ${t}`; return c; });
+export const authAPI = { register: d => API.post("/auth/register", d), login: d => API.post("/auth/login", d), me: () => API.get("/auth/me"), profile: d => API.put("/auth/profile", d) };
+export const listingsAPI = { getAll: p => API.get("/listings", { params: p }), getMine: () => API.get("/listings/mine"), getOne: id => API.get(`/listings/${id}`), create: fd => API.post("/listings", fd, { headers: { "Content-Type": "multipart/form-data" } }), update: (id, d) => API.put(`/listings/${id}`, d), delete: id => API.delete(`/listings/${id}`) };
+export const ordersAPI = { create: d => API.post("/orders", d), mine: () => API.get("/orders/mine"), getOne: id => API.get(`/orders/${id}`), updateStatus: (id, s) => API.put(`/orders/${id}/status`, s) };
+export const msgAPI = { convs: () => API.get("/messages/conversations"), thread: uid => API.get(`/messages/${uid}`), send: d => API.post("/messages", d) };
+export const notifsAPI = { getAll: () => API.get("/notifications"), readAll: () => API.put("/notifications/read-all") };
+export const statsAPI = { platform: () => API.get("/stats/platform"), mine: () => API.get("/stats/mine") };
+export const usersAPI = { getOne: id => API.get(`/users/${id}`) };
+export const reviewsAPI = { create: d => API.post("/reviews", d) };
+export default API;
