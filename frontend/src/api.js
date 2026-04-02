@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "http://localhost:4000/api" });
+const API = axios.create({ baseURL:"https://rebuild-production.up.railway.app" });
 API.interceptors.request.use(c => { const t = localStorage.getItem("rb_token"); if (t) c.headers.Authorization = `Bearer ${t}`; return c; });
 export const authAPI = { register: d => API.post("/auth/register", d), login: d => API.post("/auth/login", d), me: () => API.get("/auth/me"), profile: d => API.put("/auth/profile", d) };
 export const listingsAPI = { getAll: p => API.get("/listings", { params: p }), getMine: () => API.get("/listings/mine"), getOne: id => API.get(`/listings/${id}`), create: fd => API.post("/listings", fd, { headers: { "Content-Type": "multipart/form-data" } }), update: (id, d) => API.put(`/listings/${id}`, d), delete: id => API.delete(`/listings/${id}`) };
