@@ -8,7 +8,8 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Running on ${PORT}`));
 const JWT_SECRET = "rebuild_btp_morocco_2026_secret";
 
 app.use(cors({ origin: "*" }));
